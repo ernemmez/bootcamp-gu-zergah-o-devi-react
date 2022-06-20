@@ -3,7 +3,7 @@ import './App.css';
 
 
 function App() {
-    const [routes] = useState([]);
+    const [routes,setRoutes] = useState(false);
     const [routeName,setRouteName] = useState();
     const [stations,setStations] = useState([]);
     const [saveBtn,setSaveBtn] = useState(false);
@@ -26,7 +26,6 @@ function App() {
 
     const handleName = (e,index) => {
         let currentDurak = stations[index];
-
         currentDurak.name = e.target.value;
         console.log(stations);
         setStations([...stations]);
@@ -47,15 +46,14 @@ function App() {
     }
 
     const handleSave = () => {
-        routes.push({ //yeni güzergahi güzergahların içerisine ekle
+        setRoutes({
           id:Math.floor(Math.random() * 666),
           name:routeName,
           stations,
         })
-        setStations([]); //istasyonları boşalt
-        setRouteName(); //güzergah adını boşalt
         console.log(routes);
     }
+
   return (
     <div className="App">
       <h1>Add Route </h1>
@@ -65,9 +63,9 @@ function App() {
       </label>
       <button type="button" onClick={() => {
          setStations([...stations,{
-          name:null,
-          enlem:null,
-          boylam:null,
+          name:'',
+          enlem:'',
+          boylam:'',
         }]);
       }}>
          Durak Ekle
@@ -87,9 +85,9 @@ function App() {
       <button
         ref={btnRef}
         type="button"
-        disabled={saveBtn}
         className={saveBtn ? '' : 'disable'}
-        onClick={saveBtn ? handleSave : null}
+        disabled={!saveBtn}
+        onClick={handleSave}
         >
          Kaydet
       </button>
