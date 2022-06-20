@@ -26,9 +26,17 @@ function App() {
 
     const handleName = (e,index) => {
         let currentDurak = stations[index];
-        currentDurak.name = e.target.value;
-        console.log(stations);
-        setStations([...stations]);
+
+        stations.filter(durak => { // ne kullanmalıyım ?
+          if(durak.hasOwnProperty(e.target.value)){
+            alert('aynı veri yalnızca bir kez eklenebilir')
+          }else{
+            currentDurak.name = e.target.value;
+             console.log(stations);
+             setStations([...stations]);
+          }
+        })
+       
     }
     const handleEnlem = (e,index) => {
       let currentDurak = stations[index];
