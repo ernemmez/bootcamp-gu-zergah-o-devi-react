@@ -1,4 +1,4 @@
-import { useState,useRef } from 'react';
+import { useState,useRef, useEffect } from 'react';
 import './App.css';
 
 
@@ -6,27 +6,44 @@ function App() {
     const [routes] = useState([]);
     const [routeName,setRouteName] = useState();
     const [stations,setStations] = useState([]);
+    const [saveBtn,setSaveBtn] = useState(false);
     const btnRef = useRef();
     
 
-    const handleName = (e,id) => {
-      let currentDurak = stations.find(durak => durak.id === id);
-      if(currentDurak){
-        currentDurak.name = e.target.value
-      }
-      
+      useEffect(()=>{ //button'un disabled durumunu kontrol ediyor
+        if(stations.length > 0){
+          stations.map(durak => {
+            if(durak.name === '' || durak.enlem === '' || durak.boylam === '' ){// disable olması gereken durum
+                setSaveBtn(false);
+            }else{ //disable olmaması gereken durum
+              setSaveBtn(true);
+            }
+          })
+        }
+      },[stations])
+
+
+
+    const handleName = (e,index) => {
+        let currentDurak = stations[index];
+
+        currentDurak.name = e.target.value;
+        console.log(stations);
+        setStations([...stations]);
     }
-    const handleEnlem = (e,id) => {
-      let currentDurak = stations.find(durak => durak.id === id);
-      if(currentDurak){
-        currentDurak.enlem = e.target.value
-      }
+    const handleEnlem = (e,index) => {
+      let currentDurak = stations[index];
+
+        currentDurak.enlem = e.target.value;
+        console.log(stations);
+        setStations([...stations]);
     }
-    const handleBoylam = (e,id) => {
-      let currentDurak = stations.find(durak => durak.id === id);
-      if(currentDurak){
-        currentDurak.boylam = e.target.value
-      }
+    const handleBoylam = (e,index) => {
+      let currentDurak = stations[index];
+
+        currentDurak.boylam = e.target.value;
+        console.log(stations);
+        setStations([...stations]);
     }
 
     const handleSave = () => {
@@ -48,7 +65,6 @@ function App() {
       </label>
       <button type="button" onClick={() => {
          setStations([...stations,{
-          id:stations.length + 1,
           name:null,
           enlem:null,
           boylam:null,
@@ -61,9 +77,9 @@ function App() {
      {stations.length > 0 ?
         stations.map(durak => (
           <div className='routes'>
-            <label>Durak Adı :<input  type="text" className='input' name="name" placeholder='örn : beylerbeyi' value={durak.name} onChange={(e) => handleName(e,durak.id)}/></label>
-            <label>Enlem :<input  type="text" className='input' name="enlem" placeholder='örn : 41.042778' value={durak.enlem} onChange={(e) => handleEnlem(e,durak.id)} /></label>
-            <label>Boylam :<input  type="text" className='input' name="boylam" placeholder='örn : 29.040001' value={durak.boylam} onChange={(e) => handleBoylam(e,durak.id)}/></label>
+            <label>Durak Adı :<input  type="text" className='input' name="name" placeholder='örn : beylerbeyi' value={durak.name} onChange={(e) => handleName(e,stations.indexOf(durak))}/></label>
+            <label>Enlem :<input  type="text" className='input' name="enlem" placeholder='örn : 41.042778' value={durak.enlem} onChange={(e) => handleEnlem(e,stations.indexOf(durak))} /></label>
+            <label>Boylam :<input  type="text" className='input' name="boylam" placeholder='örn : 29.040001' value={durak.boylam} onChange={(e) => handleBoylam(e,stations.indexOf(durak))}/></label>
           </div>
         ))
       : <span>Bir Durak Ekleyin</span>}
@@ -71,9 +87,9 @@ function App() {
       <button
         ref={btnRef}
         type="button"
-        disabled={stations.length > 0 ? false : true}
-        className={stations.length > 0 ? '' : 'disable'}
-        onClick={handleSave}
+        disabled={saveBtn}
+        className={saveBtn ? '' : 'disable'}
+        onClick={saveBtn ? handleSave : null}
         >
          Kaydet
       </button>
