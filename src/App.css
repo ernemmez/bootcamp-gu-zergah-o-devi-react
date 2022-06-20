@@ -1,0 +1,80 @@
+.App {
+  text-align: center;
+}
+label{
+  width: 30%;
+}
+input{
+  height: 30px;
+  width: 200px;
+}
+button{
+  height: 35px;
+  background: transparent;
+  color:#000;
+  border: 1px solid #858585;
+}
+button:hover{
+  cursor: pointer;
+}
+.s{
+  margin-top: 2rem;
+  padding: 1rem;
+  margin: auto;
+  width: 80%;
+}
+.routes{
+  display: flex;
+  margin: auto;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 1px solid #858585;
+  padding-bottom: .6rem;
+  margin-bottom: 1rem;
+}
+.disable{
+  color: #858585;
+  border: 1px solid #858585;
+}
+.disable:hover{
+  cursor: not-allowed !important;
+}
+
+
+/* const [routes] = useState([]);
+const [routeName,setRouteName] = useState();
+const [stations,setStations] = useState([]);
+const btnRef = useRef();
+
+
+const handleName = (e,id) => {
+  let currentDurak = stations.find(durak => durak.id === id);
+  if(currentDurak){
+    currentDurak.name = e.target.value
+  }
+}
+const handleEnlem = (e,id) => {
+  let currentDurak = stations.find(durak => durak.id === id);
+  if(currentDurak){
+    currentDurak.enlem = e.target.value
+    
+  }
+}
+const handleBoylam = (e,id) => {
+  let currentDurak = stations.find(durak => durak.id === id);
+  if(currentDurak){
+    currentDurak.boylam = e.target.value
+    
+  }
+}
+
+const handleSave = () => {
+    routes.push({ //yeni güzergahi güzergahların içerisine ekle
+      id:Math.floor(Math.random() * 666),
+      name:routeName,
+      stations,
+    })
+    setStations([]); //istasyonları boşalt
+    setRouteName(); //güzergah adını boşalt
+    console.log(routes);
+} */
