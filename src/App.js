@@ -36,7 +36,6 @@ function App() {
              setStations([...stations]);
           }
         })
-       
     }
     const handleEnlem = (e,index) => {
       let currentDurak = stations[index];
