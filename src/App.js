@@ -14,39 +14,36 @@ function App() {
       useEffect(()=>{ //button'un disabled durumunu kontrol ediyor
         if(stations.length > 0){
           stations.map(durak => {
-            if(durak.name === '' || durak.enlem === '' || durak.boylam === '' ){// disable olması gereken durum
+            if(durak.name === '' || durak.enlem === '' || durak.boylam === ''){// disable olması gereken durum
                 setSaveBtn(false);
             }else{ //disable olmaması gereken durum
-              setSaveBtn(true);
+              if(error){ 
+                setSaveBtn(false);
+              }else{
+                setSaveBtn(true);
+              }
             }
           })
         }
-      },[stations])
+      },[error, stations])
 
+//sorun inputa girildiğinde direk ekliyor ondan sonra duplicate mi kontrol etmemiz lazım
 
-
-      const hasDuplicateStation = (input) => {
-        stations.filter(durak => {
-          const durakArray =  Object.values(durak);
-          if(durakArray.includes(input.value)){
-              if(input.value === ''){
-                console.log('bu alan boş bırakılamaz');
-              }else{
-                console.log('içeriyor');
-              }
-          }else{
-            console.log('içermiyor');
-          }
-        })
-      }
 
 
     const handleName = (e,index) => {
       const currentDurak = stations[index];
       currentDurak.name = e.target.value;
       setStations([...stations]);
-
-      if(stations.length > 1){hasDuplicateStation(e.target);}
+      
+      if(stations.length > 0){
+        const duplicates = stations.filter( durak => Object.values(durak).includes(e.target.value));
+        if(duplicates.length > 1){
+          showError(true);
+        }else{
+          showError(false);
+        }
+      }
     }
 
 
@@ -54,26 +51,42 @@ function App() {
 
     const handleEnlem = (e,index) => {
       const currentDurak = stations[index];
+      currentDurak.enlem = e.target.value;
+      setStations([...stations]);
 
-        currentDurak.enlem = e.target.value;
-        console.log(stations);
-        setStations([...stations]);
+      if(stations.length > 0){
+        const duplicates = stations.filter( durak => Object.values(durak).includes(e.target.value));
+        if(duplicates.length > 1){
+          showError(true);
+        }else{
+          showError(false);
+        }
+      }
     }
+    
     const handleBoylam = (e,index) => {
       const currentDurak = stations[index];
+      currentDurak.boylam = e.target.value;
+      setStations([...stations]);
 
-        currentDurak.boylam = e.target.value;
-        console.log(stations);
-        setStations([...stations]);
+      if(stations.length > 0){
+        const duplicates = stations.filter( durak => Object.values(durak).includes(e.target.value));
+        if(duplicates.length > 1){
+          showError(true);
+        }else{
+          showError(false);
+        }
+      }
+      
     }
 
     const handleSave = () => {
-        setRoutes({
-          id:Math.floor(Math.random() * 666),
-          name:routeName,
-          stations,
-        })
-        console.log(routes);
+      setRoutes({
+        id:Math.floor(Math.random() * 666),
+        name:routeName,
+        stations,
+      })
+      console.log(routes);
     }
 
   return (
@@ -105,7 +118,7 @@ function App() {
       : <span>Bir Durak Ekleyin</span>}
       </div>
 
-      <span style={{color:'red'}}>{error ? 'Aynı Veri Yalnızca Bir Kez Eklenebilir' : null}</span>
+      <span style={{color:'red'}}>{error ? 'Aynı Veri Yalnızca Bir Kez Eklenebilir!' : null}</span> <br/>
       
       <button
         ref={btnRef}
