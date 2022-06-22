@@ -7,6 +7,7 @@ function App() {
     const [routeName,setRouteName] = useState();
     const [stations,setStations] = useState([]);
     const [saveBtn,setSaveBtn] = useState(false);
+    const [error,showError] = useState(false);
     const btnRef = useRef();
     
 
@@ -24,28 +25,42 @@ function App() {
 
 
 
-    const handleName = (e,index) => {
-        let currentDurak = stations[index];
-
-        stations.filter(durak => { // ne kullanmalıyım ?
-          if(durak.hasOwnProperty(e.target.value)){
-            alert('aynı veri yalnızca bir kez eklenebilir')
+      const hasDuplicateStation = (input) => {
+        stations.filter(durak => {
+          const durakArray =  Object.values(durak);
+          if(durakArray.includes(input.value)){
+              if(input.value === ''){
+                console.log('bu alan boş bırakılamaz');
+              }else{
+                console.log('içeriyor');
+              }
           }else{
-            currentDurak.name = e.target.value;
-             console.log(stations);
-             setStations([...stations]);
+            console.log('içermiyor');
           }
         })
+      }
+
+
+    const handleName = (e,index) => {
+      const currentDurak = stations[index];
+      currentDurak.name = e.target.value;
+      setStations([...stations]);
+
+      if(stations.length > 1){hasDuplicateStation(e.target);}
     }
+
+
+
+
     const handleEnlem = (e,index) => {
-      let currentDurak = stations[index];
+      const currentDurak = stations[index];
 
         currentDurak.enlem = e.target.value;
         console.log(stations);
         setStations([...stations]);
     }
     const handleBoylam = (e,index) => {
-      let currentDurak = stations[index];
+      const currentDurak = stations[index];
 
         currentDurak.boylam = e.target.value;
         console.log(stations);
@@ -89,6 +104,9 @@ function App() {
         ))
       : <span>Bir Durak Ekleyin</span>}
       </div>
+
+      <span style={{color:'red'}}>{error ? 'Aynı Veri Yalnızca Bir Kez Eklenebilir' : null}</span>
+      
       <button
         ref={btnRef}
         type="button"
