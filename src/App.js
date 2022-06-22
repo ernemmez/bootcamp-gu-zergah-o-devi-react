@@ -35,9 +35,9 @@ function App() {
       const currentDurak = stations[index];
       currentDurak.name = e.target.value;
       setStations([...stations]);
-      
+
       if(stations.length > 0){
-        const duplicates = stations.filter( durak => Object.values(durak).includes(e.target.value));
+        const duplicates = stations.filter( durak => Object.values(durak).includes(e.target.value)); //durağı array'e çevirip input value'su var mı diye kontrol ediyorum.
         if(duplicates.length > 1){
           showError(true);
         }else{
@@ -118,7 +118,7 @@ function App() {
       : <span>Bir Durak Ekleyin</span>}
       </div>
 
-      <span style={{color:'red'}}>{error ? 'Aynı Veri Yalnızca Bir Kez Eklenebilir!' : null}</span> <br/>
+      <span style={{color:'red'}}>{error ? 'Aynı Veri Yalnızca Bir Kez Eklenebilir!' : null}</span> <br/> <br/>
       
       <button
         ref={btnRef}
